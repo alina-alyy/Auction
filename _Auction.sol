@@ -1,31 +1,29 @@
 pragma solidity ^0.4.17;
 contract Auction {
 
-// Data
- //Structure to hold details of the item
+
  struct Item {
- uint itemId; // id of the item
- uint[] itemTokens; //tokens bid in favor of the item
+ uint itemId;
+ uint[] itemTokens; 
 
  }
 
- //Structure to hold the details of a persons
  struct Person {
- uint remainingTokens; // tokens remaining with bidder
- uint personId; // it serves as tokenId as well
- address addr;//address of the bidder
+ uint remainingTokens; 
+ uint personId; 
+ address addr;
  }
- mapping(address => Person) tokenDetails; //address to person
- Person [4] bidders;//Array containing 4 person objects
+ mapping(address => Person) tokenDetails; 
+ Person [4] bidders;
 
- Item [3] public items;//Array containing 3 item objects
- address[3] public winners;//Array for address of winners
- address public beneficiary;//owner of the smart contract
+ Item [3] public items;
+ address[3] public winners;
+ address public beneficiary;
 
- uint bidderCount=0;//counter
+ uint bidderCount=0;
 
- //functions
- function Auction() public payable{ //constructor
+
+ function Auction() public payable{ 
 
 beneficiary= msg.sender;
  uint[] memory emptyArray;
@@ -73,26 +71,18 @@ function revealWinners() public onlyOwner {
         for (uint id = 0; id < 3; id++) {
             Item storage currentItem=items[id];
             if(currentItem.itemTokens.length != 0){
-            // generate random# from block number 
             uint randomIndex = (block.number / currentItem.itemTokens.length)% currentItem.itemTokens.length; 
-            // Obtain the winning tokenId
+           
 
-            uint winnerId = currentItem.itemTokens[randomIndex];
-                
-            /* Part 1 Task 6. Assign the winners.
-            Hint." bidders[winnerId] " will give you the person object with the winnerId.
-            you need to assign the address of the person obtained above to winners[id] */
-
-            // ** Start coding here *** 1 line approximately.
+            
             winners[id] = bidders[winnerId].addr;
                     
-            //** end code here*
                 
             }
         }
     } 
 
-  //Miscellaneous methods: Below methods are used to assist Grading. Please DONOT CHANGE THEM.
+ 
     function getPersonDetails(uint id) public constant returns(uint,uint,address){
         return (bidders[id].remainingTokens,bidders[id].personId,bidders[id].addr);
     }
