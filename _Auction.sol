@@ -75,7 +75,7 @@ function revealWinners() public onlyOwner {
            
 
             
-            winners[id] = bidders[winnerId].addr;
+            winners[id] = bidders[randomIndex].addr;
                     
                 
             }
